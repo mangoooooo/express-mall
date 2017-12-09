@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+import api from '../api'
 
 Vue.use(Vuex)
 
@@ -17,12 +17,13 @@ export default new Vuex.Store({
             state.user = data
         },
         checkLogin(state) {
-            axios.post("/users/checkLogin").then(res => {
-                var data = res.data
-
-                if (data.status == 0) {
-                    state.user = data.result
-                }
+            api.checkLogin().then(res => {
+                console.log('check login ::')
+                console.log(res)
+                state.user = res
+            }).catch(err => {
+                console.log('check login ::')
+                console.log(err)
             })
         }
     }

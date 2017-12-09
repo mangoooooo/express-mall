@@ -144,32 +144,21 @@ export default {
         getGoodsList () {
             this.isLoading = true 
 
-            this.$axios.get('/goods/list', {
-                params: this.getSendParams()
-
-            }).then((res) => {
+            this.$ajax.getGoodsList(this.getSendParams()).then(res => {
                 this.isLoading = false
 
-                let data = res.data
+                this.goodsList = this.goodsList.concat(res.list)
 
-                if (data.status == 0) {
-                    this.goodsList = this.goodsList.concat(data.result.list)
-
-                    this.$nextTick(() => {
-                        if (data.result.count < this.pageSize || data.result.count == 0) {
-                            this.busy = true
-                            this.isEnd = true
-                        } else {
-                            this.busy = false
-                        }
-                    })
-                    
-                } else {
-                    this.busy = true
-                }
+                this.$nextTick(() => {
+                    if (res.count < this.pageSize || res.count == 0) {
+                        this.busy = true
+                        this.isEnd = true
+                    } else {
+                        this.busy = false
+                    }
+                })
 
             }).catch(err => {
-                console.log(err)
                 this.busy = true
                 this.isLoading = false
             })

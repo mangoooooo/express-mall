@@ -125,12 +125,11 @@ export default {
                 return
             }
 
-            this.$axios.post('/users/cart/edit', {
+            this.$ajax.cartEdit({
                 productId: item.productId,
                 num: item.productNum
-            }).then(res => {
-
             })
+            
         },
         deleteGoods (item, index) {
             if (this.isdeleting) {
@@ -138,26 +137,18 @@ export default {
             }
             this.isdeleting = true
 
-            this.$axios.post('/users/cart/del', {productId: item.productId}).then(res => {
+            this.$ajax.cartDel({productId: item.productId}).then(res => {
                 this.isdeleting = false
-
-                var data = res.data
-            
-                if (data.status == 1) {
-                    alert(data.msg)
-                } else if (data.status == 0) {
-                    return true
-                }
-            }).then(rs => {
                 this.cartList.splice(index, 1)
                 alert('删除成功')
+            }).catch(err => {
+                alert(err.msg || '删除失败')
             })
             
         },
         loadData () {
-            this.$axios.get('/users/cartList').then(res => {
-                let data = res.data 
-                this.cartList = data.result;
+            this.$ajax.cartList().then(res => {
+                this.cartList = res
             })
         },
         change(e, index) {

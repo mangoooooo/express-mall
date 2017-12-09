@@ -23,7 +23,10 @@ export default {
             this.$store.commit("updateLoginForm", true)
         },
         logout () {
-            this.$axios.post('/users/logout').then(res => {
+            this.$ajax.logout().then(res => {
+                this.$store.commit("updateUserInfo", null)
+                alert('已退出账号')
+            }).catch(err => {
                 this.$store.commit("updateUserInfo", null)
                 alert('已退出账号')
             })

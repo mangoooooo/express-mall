@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import vueLazyLoad from 'vue-lazyload'
-import axios from 'axios'
+import api from './api'
 import infiniteScroll from 'vue-infinite-scroll'
 import store from './store'
 
@@ -14,7 +14,7 @@ Vue.use(vueLazyLoad, {
 Vue.use(infiniteScroll)
 
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios
+Vue.prototype.$ajax = api
 
 /* eslint-disable no-new */
 new Vue({

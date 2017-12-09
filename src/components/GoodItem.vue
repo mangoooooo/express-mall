@@ -18,16 +18,12 @@ export default {
     },
     methods: {
         addCart () {
-            this.$axios.post('/goods/addCart', {
+            this.$ajax.addCart({
                 productId: this.info.productId,
             }).then(res => {
-                if (res.data.status == 0) {
-                    alert('添加成功')
-                } else {
-                    alert(res.data.msg)
-                }
+                alert('添加成功')
             }).catch(err => {
-                alert(err)
+                alert(err.msg || '添加失败')
             })
         }
     }

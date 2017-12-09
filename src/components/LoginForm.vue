@@ -56,26 +56,23 @@ export default {
                 return false
             }
             this.isRequsting = true
+            this.errMsg = ''
 
             let params = {
                 username: this.username,
                 password: this.password
             }
-            this.$axios.post('/users/login', params).then(res => {
+
+            this.$ajax.login(params).then(res => {
                 this.isRequsting = false
+                this.$store.commit("updateUserInfo", res)
+                this.hide()
 
-                var data = res.data
-
-                if (data.status == 0) {
-                    this.$store.commit("updateUserInfo", data.result)
-                    this.hide();
-                } else {
-                    this.errMsg = data.msg
-                }
             }).catch(err => {
                 this.isRequsting = false
-                this.errMsg = '登录失败'
+                this.errMsg = err.msg ? err.msg : '登录失败'
             })
+
         },
         hide () {
             this.$store.commit("updateLoginForm", false)
